@@ -8,7 +8,7 @@ const URLList = () => {
   useEffect(() => {
     const fetchUrlList = async () => {
       try {
-        const response = await axios.get('http://localhost:6060/api/url-list');
+        const response = await axios.get('https://url-shortener-ax8r.onrender.com/api/url-list');
         setUrlList(response.data);
       } catch (error) {
         console.error('Error fetching URL list:', error);

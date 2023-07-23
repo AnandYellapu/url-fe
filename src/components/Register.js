@@ -19,7 +19,7 @@ const Register = () => {
     };
 
     axios
-      .post('http://localhost:6060/api/users/register', userData)
+      .post('https://url-shortener-ax8r.onrender.com/api/users/register', userData)
       .then((response) => {
         console.log(response.data);
         toast.success('Registration successful! Please check your email to activate your account.');

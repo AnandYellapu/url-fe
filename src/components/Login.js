@@ -17,7 +17,7 @@ const Login = () => {
     };
 
     axios
-      .post('http://localhost:6060/api/users/login', userData)
+      .post('https://url-shortener-ax8r.onrender.com/api/users/login', userData)
       .then((response) => {
         console.log(response.data);
         localStorage.setItem('token', response.data.token);
