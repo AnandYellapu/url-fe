@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Login.css';
 
@@ -63,6 +63,7 @@ const Register = () => {
           Already have an account? <Link to="/">Login</Link>
         </p>
       </div>
+       <ToastContainer />
     </div>
   );
 };

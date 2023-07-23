@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 const ActivationLink = () => {
@@ -14,6 +16,7 @@ const ActivationLink = () => {
 
       // Check if the activation is successful and navigate to login
       if (response.data.message === 'Account activated successfully. You can now log in.') {
+        toast.success("Your account has been successfully activated");
         navigate('/login');
       }
     } catch (error) {
@@ -30,6 +33,7 @@ const ActivationLink = () => {
     <div>
       <h1>Account Activation</h1>
       <p>{message}</p>
+      <ToastContainer />
     </div>
   );
 };

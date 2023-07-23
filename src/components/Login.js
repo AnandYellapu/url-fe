@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Login.css';
 
@@ -62,6 +62,7 @@ const Login = () => {
           Not yet registered? <Link to="/register">Register</Link>
         </p>
       </div>
+       <ToastContainer />
     </div>
   );
 };
