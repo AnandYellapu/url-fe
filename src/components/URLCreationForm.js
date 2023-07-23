@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { IoCopyOutline } from 'react-icons/io5';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const URLCreationForm = () => {
   const [longURL, setLongURL] = useState('');
@@ -17,17 +19,30 @@ const URLCreationForm = () => {
 
       setShortURL(shortURL);
       setErrorMessage('');
+
+      // Display success toast
+      toast.success('Short URL created successfully!');
     } catch (error) {
       setErrorMessage('Error occurred while creating short URL');
       console.error(error);
+
+      // Display error toast
+      toast.error('Error occurred while creating short URL');
     }
   };
 
   const handleCopyClick = () => {
     // Copy the short URL to the clipboard
     navigator.clipboard.writeText(shortURL)
-      .then(() => alert('Short URL copied to clipboard!'))
-      .catch((error) => console.error('Error copying to clipboard:', error));
+      .then(() => {
+        // Display success toast when copied successfully
+        toast.success('Short URL copied to clipboard!');
+      })
+      .catch((error) => {
+        console.error('Error copying to clipboard:', error);
+        // Display error toast when copying fails
+        toast.error('Error copying to clipboard');
+      });
   };
 
   return (

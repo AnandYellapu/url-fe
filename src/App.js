@@ -21,6 +21,7 @@ const App = () => {
    return (
     <Router>
       <div className="App">
+      <ToastContainer />
         <Routes>
            <Route path="/" element={<Home />} />
            <Route path="/login" element={<Login />} />
@@ -51,7 +52,6 @@ const Layout = ({ children}) => {
         
         {children}
       </Routes>
-      <ToastContainer />
       <Footer />
     </>
   );
