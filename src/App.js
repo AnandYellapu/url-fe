@@ -21,7 +21,12 @@ const App = () => {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={<Home />} />
+           <Route path="/" element={<Home />} />
+           <Route path="/login" element={<Login />} />
+           <Route path="/register" element={<Register />} />
+        
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/*" element={<Layout />} >
             </Route>
         </Routes>
@@ -41,10 +46,6 @@ const Layout = ({ children}) => {
         <Route path="/update-click-count/:urlId" element={<useUpdateClickCount />} />
         <Route path="/chart" element={<Chart />} />
         <Route path="/about" element={<About />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/activate/:token" element={<ActivationLink />} />
         {children}
       </Routes>
