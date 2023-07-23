@@ -9,7 +9,7 @@ function Text() {
   const videoRef = useRef(null);
 
   const handleClick = () => {
-    navigate('/create-url');
+    navigate('/login');
   };
 
   useEffect(() => {
