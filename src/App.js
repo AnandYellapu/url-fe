@@ -21,15 +21,15 @@ const App = () => {
    return (
     <Router>
       <div className="App">
+         <ToastContainer />
         <Routes>
            <Route path="/" element={<Home />} />
            <Route path="/login" element={<Login />} />
            <Route path="/register" element={<Register />} />
-        
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password/:token" element={<ResetPassword />} />
-        <Route path="/activate/:token" element={<ActivationLink />} />
-          <Route path="/*" element={<Layout />} >
+           <Route path="/forgot-password" element={<ForgotPassword />} />
+           <Route path="/reset-password/:token" element={<ResetPassword />} />
+           <Route path="/activate/:token" element={<ActivationLink />} />
+           <Route path="/*" element={<Layout />} >
             </Route>
         </Routes>
       </div>
@@ -51,7 +51,6 @@ const Layout = ({ children}) => {
         
         {children}
       </Routes>
-      <ToastContainer />
       <Footer />
     </>
   );
