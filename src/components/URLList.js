@@ -134,7 +134,9 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaTrash } from 'react-icons/fa'; // Import the delete icon
+import { FaTrash } from 'react-icons/fa'; 
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const URLList = () => {
   const [urlList, setUrlList] = useState([]);
@@ -162,6 +164,7 @@ const URLList = () => {
     try {
       await axios.delete(`https://url-shortener-ax8r.onrender.com/api/urls/${urlId}`);
       setUrlList((prevUrlList) => prevUrlList.filter((url) => url._id !== urlId));
+      toast.success('You have delete the url successfully!');
     } catch (error) {
       console.error('Error deleting URL:', error);
       // Handle error cases
