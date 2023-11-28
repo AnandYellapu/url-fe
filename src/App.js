@@ -11,7 +11,9 @@ import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import URLCreationForm from './components/URLCreationForm';
 import URLList from './components/URLList';
+import UserURLList from './components/UserUrlList';
 import Chart from './components/Chart';
+import UserCharts from './components/UserCharts';
 import Register from './components/Register';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
@@ -45,8 +47,10 @@ const Layout = ({ children}) => {
         <Route path="/create-url" element={<URLCreationForm />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/url-list" element={<URLList />} />
+        <Route path='user-url-list' element={<UserURLList />} />
         <Route path="/update-click-count/:urlId" element={<useUpdateClickCount />} />
         <Route path="/chart" element={<Chart />} />
+        <Route path="/user-charts" element={<UserCharts />} />
         <Route path="/about" element={<About />} />
         
         {children}

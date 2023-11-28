@@ -21,7 +21,7 @@ const ResetPassword = () => {
 
   const handleResetPassword = async () => {
     try {
-      const response = await axios.post('https://url-shortener-ax8r.onrender.com/api/users/reset-password/:token', {
+      const response = await axios.post('http://localhost:6060/api/users/reset-password/:token', {
         token,
         password,
       });

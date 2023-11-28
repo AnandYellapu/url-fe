@@ -9,7 +9,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const response = await axios.get('https://url-shortener-ax8r.onrender.com/api/dashboard');
+        const response = await axios.get('http://localhost:6060/api/urls/dashboard');
         setDashboardData(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -29,7 +29,7 @@ const Dashboard = () => {
     return <div className="error">Error: {error}</div>;
   }
 
-  const { totalURLs, totalClicks, uniqueDomains } = dashboardData;
+  const { totalURLs, totalCopyCounts } = dashboardData;
 
   return (
     <div className="dashboard">
@@ -39,22 +39,15 @@ const Dashboard = () => {
         <span className="dashboard-info-value">Total URLs: {totalURLs}</span>
       </p>
       <p className="dashboard-info">
-        <span className="dashboard-info-icon">👆</span>
-        <span className="dashboard-info-value">Total Clicks: {totalClicks}</span>
+        <span className="dashboard-info-icon">📋</span>
+        <span className="dashboard-info-value">Total Click Counts: {totalCopyCounts}</span>
       </p>
-      <div className="dashboard-unique-domains">
-        <p className="dashboard-unique-domains-title">Unique Domains:</p>
-        <ul className="dashboard-unique-domains-list">
-          {uniqueDomains.map((domain, index) => (
-            <li key={index} className="dashboard-unique-domains-item">
-              {domain}
-            </li>
-          ))}
-        </ul>
-      </div>
     </div>
   );
 };
 
 export default Dashboard;
+
+
+
 
