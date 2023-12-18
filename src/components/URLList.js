@@ -8,7 +8,7 @@
 // //   useEffect(() => {
 // //     const fetchUrlList = async () => {
 // //       try {
-// //         const response = await axios.get('http://localhost:6060/api/url-list');
+// //         const response = await axios.get('https://url-shortener-ax8r.onrender.com/api/url-list');
 // //         setUrlList(response.data);
 // //       } catch (error) {
 // //         console.error('Error fetching URL list:', error);
@@ -76,7 +76,7 @@
 // //   useEffect(() => {
 // //     const fetchUrlList = async () => {
 // //       try {
-// //         const response = await axios.get('http://localhost:6060/api/url-list');
+// //         const response = await axios.get('https://url-shortener-ax8r.onrender.com/api/url-list');
 // //         setUrlList(response.data);
 // //       } catch (error) {
 // //         console.error('Error fetching URL list:', error);
@@ -148,7 +148,7 @@
 //   useEffect(() => {
 //     const fetchUrlList = async () => {
 //       try {
-//         const response = await axios.get('http://localhost:6060/api/urls/url-list');
+//         const response = await axios.get('https://url-shortener-ax8r.onrender.com/api/urls/url-list');
 //         setUrlList(response.data);
 //       } catch (error) {
 //         console.error('Error fetching URL list:', error);
@@ -178,7 +178,7 @@
 //       }, 2000);
 
 //       // Send copy count to the server
-//       await axios.post('http://localhost:6060/api/urls/copy-count', {
+//       await axios.post('https://url-shortener-ax8r.onrender.com/api/urls/copy-count', {
 //         urlId,
 //         copyCount,
 //       });
@@ -191,7 +191,7 @@
 //   const handleDeleteUrl = async (urlId) => {
 //     console.log('URL ID to be deleted:', urlId);
 //     try {
-//       await axios.delete(`http://localhost:6060/api/urls/${urlId}`);
+//       await axios.delete(`https://url-shortener-ax8r.onrender.com/api/urls/${urlId}`);
 //       setUrlList((prevUrlList) => prevUrlList.filter((url) => url._id !== urlId));
 //     window.open(url, '_blank'); // Open the link in a new tab without the localhost prefix
 //   };
@@ -199,7 +199,7 @@
 //   const handleDeleteUrl = async (urlId) => {
 //     console.log('URL ID to be deleted:', urlId);
 //     try {
-//       await axios.delete(`http://localhost:6060/api/urls/${urlId}`);
+//       await axios.delete(`https://url-shortener-ax8r.onrender.com/api/urls/${urlId}`);
 //       setUrlList((prevUrlList) => prevUrlList.filter((url) => url._id !== urlId));
 //       toast.success('You have delete the url successfully!');
 //     } catch (error) {
@@ -285,7 +285,7 @@ const URLList = () => {
   useEffect(() => {
     const fetchUrlList = async () => {
       try {
-        const response = await axios.get('http://localhost:6060/api/urls/url-list');
+        const response = await axios.get('https://url-shortener-ax8r.onrender.com/api/urls/url-list');
         setUrlList(response.data);
       } catch (error) {
         console.error('Error fetching URL list:', error);
@@ -315,7 +315,7 @@ const URLList = () => {
       }, 2000);
 
       // Send copy count to the server
-      await axios.post('http://localhost:6060/api/urls/copy-count', {
+      await axios.post('https://url-shortener-ax8r.onrender.com/api/urls/copy-count', {
         urlId,
         copyCount,
       });
@@ -327,7 +327,7 @@ const URLList = () => {
 
   const handleDeleteUrl = async (urlId) => {
     try {
-      await axios.delete(`http://localhost:6060/api/urls/${urlId}`);
+      await axios.delete(`https://url-shortener-ax8r.onrender.com/api/urls/${urlId}`);
       setUrlList((prevUrlList) => prevUrlList.filter((url) => url._id !== urlId));
       toast.success('URL deleted successfully!');
     } catch (error) {

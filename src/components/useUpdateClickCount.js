@@ -6,7 +6,7 @@
 
 //   const handleUpdateClickCount = async (urlId) => {
 //     try {
-//       await axios.post(`http://localhost:6060/api/update-click-count/${urlId}`);
+//       await axios.post(`https://url-shortener-ax8r.onrender.com/api/update-click-count/${urlId}`);
 //       setClickCount((prevClickCount) => prevClickCount + 1);
 //     } catch (error) {
 //       console.error('Error updating click count:', error);
@@ -31,7 +31,7 @@ const useUpdateClickCount = () => {
 
   const handleUpdateClickCount = async (urlId) => {
     try {
-      await axios.post(`http://localhost:6060/api/update-click-count/${urlId}`);
+      await axios.post(`https://url-shortener-ax8r.onrender.com/api/update-click-count/${urlId}`);
       setClickCount((prevClickCount) => prevClickCount + 1);
     } catch (error) {
       console.error('Error updating click count:', error);

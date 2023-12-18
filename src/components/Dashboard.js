@@ -9,7 +9,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const response = await axios.get('http://localhost:6060/api/urls/dashboard');
+        const response = await axios.get('https://url-shortener-ax8r.onrender.com/api/urls/dashboard');
         setDashboardData(response.data);
         setIsLoading(false);
       } catch (error) {

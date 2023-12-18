@@ -19,7 +19,7 @@
 //     };
 
 //     axios
-//       .post('http://localhost:6060/api/users/register', userData)
+//       .post('https://url-shortener-ax8r.onrender.com/api/users/register', userData)
 //       .then((response) => {
 //         console.log(response.data);
 //         toast.success('Registration successful! Please check your email to activate your account.');
@@ -95,7 +95,7 @@ const Register = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:6060/api/users/register', userData);
+      const response = await axios.post('https://url-shortener-ax8r.onrender.com/api/users/register', userData);
       console.log(response.data);
 
       // Assuming the server sends back a token upon successful registration

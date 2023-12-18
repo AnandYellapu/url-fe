@@ -17,7 +17,7 @@
 //     };
 
 //     axios
-//       .post('http://localhost:6060/api/users/login', userData)
+//       .post('https://url-shortener-ax8r.onrender.com/api/users/login', userData)
 //       .then((response) => {
 //         console.log(response.data);
 //         localStorage.setItem('token', response.data.token);
@@ -92,7 +92,7 @@
 //     };
 
 //     axios
-//       .post('http://localhost:6060/api/users/login', userData)
+//       .post('https://url-shortener-ax8r.onrender.com/api/users/login', userData)
 //       .then((response) => {
 //         const token = response.data.token;
 //         console.log('Auth----Token:', token); // Log the token
@@ -170,7 +170,7 @@ const Login = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:6060/api/users/login', userData);
+      const response = await axios.post('https://url-shortener-ax8r.onrender.com/api/users/login', userData);
       const { token, user } = response.data;
 
       // Save the token to localStorage or any state management tool of your choice

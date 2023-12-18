@@ -11,7 +11,7 @@
 //   useEffect(() => {
 //     const fetchData = async () => {
 //       try {
-//         const response = await axios.get('http://localhost:6060/api/chart');
+//         const response = await axios.get('https://url-shortener-ax8r.onrender.com/api/chart');
 //         const { dailyURLs, monthlyURLs } = response.data;
 //         setDailyData(formatDailyData(dailyURLs));
 //         setMonthlyData(monthlyURLs);
@@ -84,7 +84,7 @@ const Chart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:6060/api/urls/chart');
+        const response = await axios.get('https://url-shortener-ax8r.onrender.com/api/urls/chart');
         const { dailyURLs, monthlyURLs } = response.data;
         setDailyData(formatDailyData(dailyURLs));
         setMonthlyData(monthlyURLs);

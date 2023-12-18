@@ -18,7 +18,7 @@ const UserURLList = () => {
           return;
         }
 
-        const response = await axios.get('http://localhost:6060/api/urls/user-url-list', {
+        const response = await axios.get('https://url-shortener-ax8r.onrender.com/api/urls/user-url-list', {
           headers: { Authorization: `Bearer ${authToken}` },
         });
 
@@ -57,7 +57,7 @@ const UserURLList = () => {
       }, 2000);
 
       // Send copy count to the server
-      await axios.post('http://localhost:6060/api/urls/copy-count', {
+      await axios.post('https://url-shortener-ax8r.onrender.com/api/urls/copy-count', {
         urlId,
         copyCount,
       });
@@ -70,7 +70,7 @@ const UserURLList = () => {
   const handleDeleteUrl = async (urlId) => {
     console.log('URL ID to be deleted:', urlId);
     try {
-      await axios.delete(`http://localhost:6060/api/urls/urls/${urlId}`);
+      await axios.delete(`https://url-shortener-ax8r.onrender.com/api/urls/urls/${urlId}`);
       setUrlList((prevUrlList) => prevUrlList.filter((url) => url._id !== urlId));
     } catch (error) {
       console.error('Error deleting URL:', error);

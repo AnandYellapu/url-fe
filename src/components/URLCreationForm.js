@@ -33,7 +33,7 @@ const URLCreationForm = () => {
       const authToken = localStorage.getItem('authToken');
 
       const response = await axios.post(
-        'http://localhost:6060/api/urls/create-url',
+        'https://url-shortener-ax8r.onrender.com/api/urls/create-url',
         { longURL },
         { headers: { Authorization: `Bearer ${authToken}` } }
       );
