@@ -1,93 +1,23 @@
-// import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
-// import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-
-// const Chart = () => {
-//   const [dailyData, setDailyData] = useState([]);
-//   const [monthlyData, setMonthlyData] = useState([]);
-//   const [isLoading, setIsLoading] = useState(true);
-//   const [error, setError] = useState(null);
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const response = await axios.get('https://url-shortener-ax8r.onrender.com/api/chart');
-//         const { dailyURLs, monthlyURLs } = response.data;
-//         setDailyData(formatDailyData(dailyURLs));
-//         setMonthlyData(monthlyURLs);
-//         setIsLoading(false);
-//       } catch (error) {
-//         setError('Server Error');
-//         setIsLoading(false);
-//       }
-//     };
-
-//     fetchData();
-//   }, []);
-
-//   const formatDailyData = (data) => {
-//     return data.map((item) => {
-//       const { date, time } = item._id;
-//       const formattedDate = `${date} ${time}`;
-//       return { date: formattedDate, count: item.count };
-//     });
-//   };
-
-//   if (isLoading) {
-//     return <div className="loader">Loading...</div>;
-//   }
-
-//   if (error) {
-//     return <div className="error">Error: {error}</div>;
-//   }
-
-//   return (
-//     <div className="chart-container">
-//       <h2 className="chart-title">Daily URL Count</h2>
-//       <LineChart className="line-chart" width={350} height={350} data={dailyData}>
-//         <CartesianGrid strokeDasharray="3 3" />
-//         <XAxis dataKey="date" />
-//         <YAxis />
-//         <Tooltip />
-//         <Legend />
-//         <Line type="monotone" dataKey="count" stroke="#8884d8" />
-//       </LineChart>
-
-//       <h2 className="chart-title">Monthly URL Count</h2>
-//       <LineChart className="line-chart" width={350} height={350} data={monthlyData}>
-//         <CartesianGrid strokeDasharray="3 3" />
-//         <XAxis dataKey="_id" />
-//         <YAxis />
-//         <Tooltip />
-//         <Legend />
-//         <Line type="monotone" dataKey="count" stroke="#8884d8" />
-//       </LineChart>
-//     </div>
-//   );
-// };
-
-// export default Chart;
-
-
-
-
-import React, { useEffect, useState } from 'react';
+import * as React from 'react';
+import { CircularProgress, Typography } from '@mui/material';
 import axios from 'axios';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import DailyPieChart from './DailyPieChart';
+import MonthlyPieChart from './MonthlyPieChart';
+import { ResponsiveContainer } from 'recharts';
 
-const Chart = () => {
-  const [dailyData, setDailyData] = useState([]);
-  const [monthlyData, setMonthlyData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+export default function Chart() {
+  const [dailyData, setDailyData] = React.useState([]);
+  const [monthlyData, setMonthlyData] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [error, setError] = React.useState(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get('https://url-shortener-ax8r.onrender.com/api/urls/chart');
         const { dailyURLs, monthlyURLs } = response.data;
         setDailyData(formatDailyData(dailyURLs));
-        setMonthlyData(monthlyURLs);
+        setMonthlyData(formatMonthlyData(monthlyURLs));
         setIsLoading(false);
       } catch (error) {
         setError('Server Error');
@@ -102,41 +32,48 @@ const Chart = () => {
     return data.map((item) => {
       const { date, time } = item._id;
       const formattedDate = `${date} ${time}`;
-      return { date: formattedDate, count: item.count };
+      return { label: formattedDate, value: item.count };
     });
   };
 
+  const formatMonthlyData = (data) => {
+    return data.map((item) => {
+      return { label: item._id, value: item.count };
+    });
+  };
+
+ 
+
   if (isLoading) {
-    return <div className="loader">Loading...</div>;
+    return <CircularProgress />;
   }
 
   if (error) {
-    return <div className="error">Error: {error}</div>;
+    return <Typography variant="h6" color="error">Error: {error}</Typography>;
   }
+
+ 
+
+  if (dailyData.length === 0 && monthlyData.length === 0) {
+    return (
+      <Typography variant="h6">
+        No Charts found.
+      </Typography>
+    );
+  } 
+
 
   return (
     <div className="chart-container">
-      <h2 className="chart-title">Daily URL Count</h2>
-      <BarChart className="bar-chart" width={350} height={350} data={dailyData}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="date" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="count" fill="#82ca9d" /> {/* Different fill color for daily chart */}
-      </BarChart>
+      <Typography variant="h4" gutterBottom>Daily URL Count</Typography>
+      <ResponsiveContainer width="100%" height={300}>
+        <DailyPieChart data={dailyData} />
+      </ResponsiveContainer>
 
-      <h2 className="chart-title">Monthly URL Count</h2>
-      <BarChart className="bar-chart" width={350} height={350} data={monthlyData}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="_id" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="count" fill="#8884d8" />
-      </BarChart>
+      <Typography variant="h4" gutterBottom>Monthly URL Count</Typography>
+      <ResponsiveContainer width="100%" height={300}>
+        <MonthlyPieChart data={monthlyData} />
+      </ResponsiveContainer>
     </div>
   );
-};
-
-export default Chart;
+}

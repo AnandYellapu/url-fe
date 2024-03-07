@@ -1,196 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-
-const UserCharts = () => {
-  const [dailyData, setDailyData] = useState([]);
-  const [monthlyData, setMonthlyData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const authToken = localStorage.getItem('authToken');
-
-        const response = await axios.get('https://url-shortener-ax8r.onrender.com/api/urls/user-charts', {
-          headers: { Authorization: `Bearer ${authToken}` },
-        });
-
-        const { dailyURLs, monthlyURLs } = response.data;
-        setDailyData(formatDailyData(dailyURLs));
-        setMonthlyData(monthlyURLs);
-        setIsLoading(false);
-        console.log(formatDailyData)
-      } catch (error) {
-        setError('Server Error');
-        setIsLoading(false);
-      }
-    };
-
-    fetchData(); // Include fetchData as a dependency to avoid potential issues
-  }, []); // An empty dependency array ensures that useEffect runs only once when the component mounts
-
-  const formatDailyData = (data) => {
-    return data.map((item) => {
-      const { date, time } = item._id;
-      const formattedDate = `${date} ${time}`;
-      return { date: formattedDate, count: item.count };
-    });
-  };
-
-  if (isLoading) {
-    return <div className="loader">Loading...</div>;
-  }
-
-  if (error) {
-    return <div className="error">Error: {error}</div>;
-  }
-
-  return (
-    <div className="chart-container">
-      <h2 className="chart-title">Daily URL Count</h2>
-      <BarChart className="bar-chart" width={350} height={350} data={dailyData}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="date" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="count" fill="#82ca9d" />
-      </BarChart>
-
-      <h2 className="chart-title">Monthly URL Count</h2>
-      <BarChart className="bar-chart" width={350} height={350} data={monthlyData}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="_id" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="count" fill="#8884d8" />
-      </BarChart>
-    </div>
-  );
-};
-
-export default UserCharts;
-
-
-
-
-
-// import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
-// import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LineChart, Line, PieChart, Pie, Cell } from 'recharts';
-
-// const UserCharts = () => {
-//   const [dailyData, setDailyData] = useState([]);
-//   const [monthlyData, setMonthlyData] = useState([]);
-//   const [isLoading, setIsLoading] = useState(true);
-//   const [error, setError] = useState(null);
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const authToken = localStorage.getItem('authToken');
-
-//         const response = await axios.get('https://url-shortener-ax8r.onrender.com/api/urls/user-charts', {
-//           headers: { Authorization: `Bearer ${authToken}` },
-//         });
-
-//         const { dailyURLs, monthlyURLs } = response.data;
-//         setDailyData(formatDailyData(dailyURLs));
-//         setMonthlyData(monthlyURLs);
-//         setIsLoading(false);
-//       } catch (error) {
-//         setError('Server Error');
-//         setIsLoading(false);
-//       }
-//     };
-
-//     fetchData();
-//   }, []);
-
-//   const formatDailyData = (data) => {
-//     return data.map((item) => {
-//       const { date, time } = item._id;
-//       const formattedDate = `${date} ${time}`;
-//       return { date: formattedDate, count: item.count };
-//     });
-//   };
-
-//   if (isLoading) {
-//     return <div className="loader">Loading...</div>;
-//   }
-
-//   if (error) {
-//     return <div className="error">Error: {error}</div>;
-//   }
-
-//   return (
-//     <div className="chart-container">
-//       <h2 className="chart-title">Daily URL Count</h2>
-//       <BarChart className="bar-chart" width={350} height={350} data={dailyData}>
-//         <CartesianGrid strokeDasharray="3 3" />
-//         <XAxis dataKey="date" />
-//         <YAxis />
-//         <Tooltip />
-//         <Legend />
-//         <Bar dataKey="count" fill="#82ca9d" />
-//       </BarChart>
-
-//       <h2 className="chart-title">Monthly URL Count</h2>
-//       <BarChart className="bar-chart" width={350} height={350} data={monthlyData}>
-//         <CartesianGrid strokeDasharray="3 3" />
-//         <XAxis dataKey="month" />
-//         <YAxis />
-//         <Tooltip />
-//         <Legend />
-//         <Bar dataKey="count" fill="#8884d8" />
-//       </BarChart>
-
-//       {/* Additional Charts */}
-//       <h2 className="chart-title">Line Chart</h2>
-//       <LineChart className="line-chart" width={350} height={350} data={dailyData}>
-//         <CartesianGrid strokeDasharray="3 3" />
-//         <XAxis dataKey="date" />
-//         <YAxis />
-//         <Tooltip />
-//         <Legend />
-//         <Line type="monotone" dataKey="count" stroke="#82ca9d" />
-//       </LineChart>
-
-//       <h2 className="chart-title">Pie Chart</h2>
-//       <PieChart width={350} height={350}>
-//         <Pie data={monthlyData} dataKey="count" nameKey="month" fill="#8884d8">
-//           {monthlyData.map((entry, index) => (
-//             <Cell key={`cell-${index}`} fill={`#${Math.floor(Math.random() * 16777215).toString(16)}`} />
-//           ))}
-//         </Pie>
-//         <Tooltip />
-//         <Legend />
-//       </PieChart>
-//     </div>
-//   );
-// };
-
-// export default UserCharts;
-
-
-
+// // // UserCharts.js
 // // import React, { useEffect, useState } from 'react';
 // // import axios from 'axios';
-// // import {
-// //   BarChart,
-// //   Bar,
-// //   XAxis,
-// //   YAxis,
-// //   CartesianGrid,
-// //   Tooltip,
-// //   Legend,
-// //   ResponsiveContainer,
-// //   ReferenceLine,
-// //   Brush,
-// // } from 'recharts';
+// // import { CircularProgress, Typography } from '@mui/material';
+// // import DailyPie from './DailyPie';
+// // import MonthlyPieChart from './MonthlyPieChart';
 
 // // const UserCharts = () => {
 // //   const [dailyData, setDailyData] = useState([]);
@@ -207,11 +20,11 @@ export default UserCharts;
 // //         });
 
 // //         const { dailyURLs, monthlyURLs } = response.data;
-// //         setDailyData(formatDailyData(dailyURLs));
-// //         setMonthlyData(monthlyURLs);
+// //         setDailyData(dailyURLs.map(item => ({ label: item.date, value: item.count })));
+// //         setMonthlyData(monthlyURLs.map(item => ({ label: item._id, value: item.count })));
 // //         setIsLoading(false);
 // //       } catch (error) {
-// //         setError('Error fetching data. Please try again.');
+// //         setError('Server Error');
 // //         setIsLoading(false);
 // //       }
 // //     };
@@ -219,51 +32,403 @@ export default UserCharts;
 // //     fetchData();
 // //   }, []);
 
-// //   const formatDailyData = (data) => {
-// //     return data.map((item) => {
-// //       const { date, time } = item._id;
-// //       const formattedDate = `${date} ${time}`;
-// //       return { date: formattedDate, count: item.count };
-// //     });
-// //   };
-
 // //   if (isLoading) {
-// //     return <div className="loader">Loading...</div>;
+// //     return <CircularProgress />;
 // //   }
 
 // //   if (error) {
-// //     return <div className="error">{error}</div>;
+// //     return <Typography variant="h6" color="error">Error: {error}</Typography>;
 // //   }
 
 // //   return (
 // //     <div className="chart-container">
-// //       <h2 className="chart-title">Daily URL Count</h2>
-// //       <ResponsiveContainer width="100%" height={350}>
-// //         <BarChart data={dailyData}>
-// //           <CartesianGrid strokeDasharray="3 3" />
-// //           <XAxis dataKey="date" />
-// //           <YAxis />
-// //           <Tooltip />
-// //           <Legend />
-// //           <ReferenceLine y={10} stroke="red" label="Threshold" />
-// //           <Bar dataKey="count" fill="#82ca9d" />
-// //         </BarChart>
-// //       </ResponsiveContainer>
+// //       <Typography variant="h4" gutterBottom>Daily URL Count</Typography>
+// //       <DailyPie data={dailyData} />
 
-// //       <h2 className="chart-title">Monthly URL Count</h2>
-// //       <ResponsiveContainer width="100%" height={350}>
-// //         <BarChart data={monthlyData}>
-// //           <CartesianGrid strokeDasharray="3 3" />
-// //           <XAxis dataKey="_id" />
-// //           <YAxis />
-// //           <Tooltip />
-// //           <Legend />
-// //           <Brush dataKey="_id" height={30} stroke="#8884d8" />
-// //           <Bar dataKey="count" fill="#8884d8" />
-// //         </BarChart>
-// //       </ResponsiveContainer>
+// //       <Typography variant="h4" gutterBottom>Monthly URL Count</Typography>
+// //       <MonthlyPieChart data={monthlyData} />
 // //     </div>
 // //   );
 // // };
 
 // // export default UserCharts;
+
+
+// // import React, { useEffect, useState } from 'react';
+// // import axios from 'axios';
+// // import { CircularProgress, Typography } from '@mui/material';
+// // import DailyPie from './DailyPie';
+// // import MonthlyPieChart from './MonthlyPieChart';
+
+// // const UserCharts = () => {
+// //   const [dailyData, setDailyData] = useState([]);
+// //   const [monthlyData, setMonthlyData] = useState([]);
+// //   const [isLoading, setIsLoading] = useState(true);
+// //   const [error, setError] = useState(null);
+
+// //   useEffect(() => {
+// //     const fetchData = async () => {
+// //       try {
+// //         const authToken = localStorage.getItem('authToken');
+// //         const response = await axios.get('https://url-shortener-ax8r.onrender.com/api/urls/user-charts', {
+// //           headers: { Authorization: `Bearer ${authToken}` },
+// //         });
+
+// //         console.log('Response:', response);
+
+// //         const { dailyURLs, monthlyURLs } = response.data;
+
+// //         console.log('Daily URLs:', dailyURLs);
+// //         console.log('Monthly URLs:', monthlyURLs);
+
+// //         if (!Array.isArray(dailyURLs) || !Array.isArray(monthlyURLs)) {
+// //           throw new Error('Invalid response format');
+// //         }
+
+// //         const formattedDailyData = dailyURLs.map(item => ({
+// //           label: formatDateString(item.date),
+// //           value: item.count
+// //         }));
+
+// //         const formattedMonthlyData = monthlyURLs.map(item => ({
+// //           label: formatMonthYearString(item._id),
+// //           value: item.count
+// //         }));
+
+// //         console.log('Formatted Daily Data:', formattedDailyData);
+// //         console.log('Formatted Monthly Data:', formattedMonthlyData);
+
+// //         setDailyData(formattedDailyData);
+// //         setMonthlyData(formattedMonthlyData);
+// //         setIsLoading(false);
+// //       } catch (error) {
+// //         console.error('Error fetching data:', error);
+// //         setError('Server Error: ' + error.message);
+// //         setIsLoading(false);
+// //       }
+// //     };
+
+// //     fetchData();
+// //   }, []);
+
+// //   const formatDateString = (dateString) => {
+// //     if (!dateString) return '';
+// //     const date = new Date(dateString.replace(/-/g, '/'));
+// //     return date.toLocaleDateString('default', { month: 'short', day: 'numeric', year: 'numeric' });
+// //   };
+
+// //   const formatMonthYearString = (dateString) => {
+// //     if (!dateString) return '';
+// //     const date = new Date(dateString.replace(/-/g, '/'));
+// //     return date.toLocaleDateString('default', { month: 'long', year: 'numeric' });
+// //   };
+
+// //   if (isLoading) {
+// //     return <CircularProgress />;
+// //   }
+
+// //   if (error) {
+// //     return <Typography variant="h6" color="error">Error: {error}</Typography>;
+// //   }
+
+// //   return (
+// //     <div className="chart-container">
+// //       <Typography variant="h4" gutterBottom>Daily URL Count</Typography>
+// //       <DailyPie data={dailyData} />
+
+// //       <Typography variant="h4" gutterBottom>Monthly URL Count</Typography>
+// //       <MonthlyPieChart data={monthlyData} />
+// //     </div>
+// //   );
+// // };
+
+// // export default UserCharts;
+
+
+
+
+
+
+// // import React, { useEffect, useState } from 'react';
+// // import axios from 'axios';
+// // import { CircularProgress, Typography } from '@mui/material';
+// // import DailyPie from './DailyPie';
+// // import MonthlyPieChart from './MonthlyPieChart';
+
+// // const UserCharts = () => {
+// //   const [dailyData, setDailyData] = useState([]);
+// //   const [monthlyData, setMonthlyData] = useState([]);
+// //   const [isLoading, setIsLoading] = useState(true);
+// //   const [error, setError] = useState(null);
+
+// //   useEffect(() => {
+// //     const fetchData = async () => {
+// //       try {
+// //         const authToken = localStorage.getItem('authToken');
+// //         const response = await axios.get('https://url-shortener-ax8r.onrender.com/api/urls/user-charts', {
+// //           headers: { Authorization: `Bearer ${authToken}` },
+// //         });
+
+// //         const { dailyURLs, monthlyURLs } = response.data;
+
+// //         if (!Array.isArray(dailyURLs) || !Array.isArray(monthlyURLs)) {
+// //           throw new Error('Invalid response format');
+// //         }
+
+// //         const formattedDailyData = dailyURLs.map(item => ({
+// //           label: item._id.date,
+// //           value: item.count
+// //         }));
+
+// //         const formattedMonthlyData = monthlyURLs.map(item => ({
+// //           label: item._id,
+// //           value: item.count
+// //         }));
+
+// //         setDailyData(formattedDailyData);
+// //         setMonthlyData(formattedMonthlyData);
+// //         setIsLoading(false);
+// //       } catch (error) {
+// //         console.error('Error fetching data:', error);
+// //         setError('Server Error: ' + error.message);
+// //         setIsLoading(false);
+// //       }
+// //     };
+
+// //     fetchData();
+// //   }, []);
+
+// //   if (isLoading) {
+// //     return <CircularProgress />;
+// //   }
+
+// //   if (error) {
+// //     return <Typography variant="h6" color="error">Error: {error}</Typography>;
+// //   }
+
+// //   return (
+// //     <div className="chart-container">
+// //       <Typography variant="h4" gutterBottom>Daily URL Count</Typography>
+// //       <DailyPie data={dailyData} />
+
+// //       <Typography variant="h4" gutterBottom>Monthly URL Count</Typography>
+// //       <MonthlyPieChart data={monthlyData} />
+// //     </div>
+// //   );
+// // };
+
+// // export default UserCharts;
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useEffect, useState } from 'react';
+// import axios from 'axios';
+// import { CircularProgress, Typography } from '@mui/material';
+// import DailyPie from './DailyPie';
+// import MonthlyPieChart from './MonthlyPieChart';
+
+// const UserCharts = () => {
+//   const [dailyData, setDailyData] = useState([]);
+//   const [monthlyData, setMonthlyData] = useState([]);
+//   const [isLoading, setIsLoading] = useState(true);
+//   const [error, setError] = useState(null);
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         const authToken = localStorage.getItem('authToken');
+//         const response = await axios.get('https://url-shortener-ax8r.onrender.com/api/urls/user-charts', {
+//           headers: { Authorization: `Bearer ${authToken}` },
+//         });
+
+//         console.log('Response:', response);
+
+//         const { dailyURLs, monthlyURLs } = response.data;
+
+//         console.log('Daily URLs:', dailyURLs);
+//         console.log('Monthly URLs:', monthlyURLs);
+
+//         if (!Array.isArray(dailyURLs) || !Array.isArray(monthlyURLs)) {
+//           throw new Error('Invalid response format');
+//         }
+
+//         const formattedDailyData = dailyURLs.map(item => ({
+//           label: item._id.date,
+//           value: item.count
+//         }));
+
+//         const formattedMonthlyData = monthlyURLs.map(item => ({
+//           label: formatMonthYearString(item._id),
+//           value: item.count
+//         }));
+
+//         console.log('Formatted Daily Data:', formattedDailyData);
+//         console.log('Formatted Monthly Data:', formattedMonthlyData);
+
+//         setDailyData(formattedDailyData);
+//         setMonthlyData(formattedMonthlyData);
+//         setIsLoading(false);
+//       } catch (error) {
+//         console.error('Error fetching data:', error);
+//         setError('Server Error: ' + error.message);
+//         setIsLoading(false);
+//       }
+//     };
+
+//     fetchData();
+//   }, []);
+
+  
+
+//   const formatMonthYearString = (dateString) => {
+//     console.log('Month Year String before formatting:', dateString);
+//     if (!dateString) return '';
+//     const [year, month] = dateString.split('-');
+//     const monthName = new Date(`${year}-${month}-01`).toLocaleDateString('default', { month: 'long' });
+//     const formattedDate = `${monthName} ${year}`;
+//     console.log('Formatted Month Year String:', formattedDate);
+//     return formattedDate;
+//   };
+
+//   if (isLoading) {
+//     return <CircularProgress />;
+//   }
+
+//   if (error) {
+//     return <Typography variant="h6" color="error">Error: {error}</Typography>;
+//   }
+
+//   return (
+//     <div className="chart-container">
+//       <Typography variant="h4" gutterBottom>Daily URL Count</Typography>
+//       <DailyPie data={dailyData} />
+
+//       <Typography variant="h4" gutterBottom>Monthly URL Count</Typography>
+//       <MonthlyPieChart data={monthlyData} />
+//     </div>
+//   );
+// };
+
+// export default UserCharts;
+
+
+
+
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { CircularProgress, Typography, Button } from '@mui/material';
+import DailyPie from './DailyPie';
+import MonthlyPieChart from './MonthlyPieChart';
+
+const UserCharts = () => {
+  const [dailyData, setDailyData] = useState([]);
+  const [monthlyData, setMonthlyData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchData = async () => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const response = await axios.get('https://url-shortener-ax8r.onrender.com/api/urls/user-charts', {
+        headers: { Authorization: `Bearer ${authToken}` },
+      });
+
+      console.log('Response:', response);
+
+      const { dailyURLs, monthlyURLs } = response.data;
+
+      console.log('Daily URLs:', dailyURLs);
+      console.log('Monthly URLs:', monthlyURLs);
+
+      if (!Array.isArray(dailyURLs) || !Array.isArray(monthlyURLs)) {
+        throw new Error('Invalid response format');
+      }
+
+      const formattedDailyData = dailyURLs.map(item => ({
+        label: item._id.date,
+        value: item.count
+      }));
+
+      const formattedMonthlyData = monthlyURLs.map(item => ({
+        label: formatMonthYearString(item._id),
+        value: item.count
+      }));
+
+      console.log('Formatted Daily Data:', formattedDailyData);
+      console.log('Formatted Monthly Data:', formattedMonthlyData);
+
+      setDailyData(formattedDailyData);
+      setMonthlyData(formattedMonthlyData);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setError('Server Error: ' + error.message);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);    //eslint-disable-line
+
+  const formatMonthYearString = (dateString) => {
+    console.log('Month Year String before formatting:', dateString);
+    if (!dateString) return '';
+    const [year, month] = dateString.split('-');
+    const monthName = new Date(`${year}-${month}-01`).toLocaleDateString('default', { month: 'long' });
+    const formattedDate = `${monthName} ${year}`;
+    console.log('Formatted Month Year String:', formattedDate);
+    return formattedDate;
+  };
+
+  const handleRetry = () => {
+    setIsLoading(true);
+    setError(null);
+    fetchData(); // Now fetchData is accessible here
+  };
+
+  if (isLoading) {
+    return <CircularProgress />;
+  }
+
+  if (error) {
+    return (
+      <div>
+        <Typography variant="h6" color="error">
+          Error: {error}
+        </Typography>
+        <Button variant="contained" onClick={handleRetry}>
+          Retry
+        </Button>
+      </div>
+    );
+  }
+
+  if (dailyData.length === 0 && monthlyData.length === 0) {
+    return (
+      <Typography variant="h6">
+        No Charts found.
+      </Typography>
+    );
+  }
+
+  return (
+    <div className="chart-container">
+      <Typography variant="h4" gutterBottom>Daily URL Count</Typography>
+      <DailyPie data={dailyData} />
+
+      <Typography variant="h4" gutterBottom>Monthly URL Count</Typography>
+      <MonthlyPieChart data={monthlyData} />
+    </div>
+  );
+};
+
+export default UserCharts;

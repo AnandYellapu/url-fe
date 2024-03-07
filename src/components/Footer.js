@@ -1,30 +1,25 @@
-// import React from 'react';
-
-// const Footer = () => {
-//   return (
-//     <footer className="footer-container">
-//       <p>&copy; {new Date().getFullYear()} URL Shortener. All rights reserved.</p>
-//     </footer>
-//   );
-// };
-
-// export default Footer;
-
-
-
-
 import React from 'react';
-import { Typography, Container } from '@mui/material';
+import { AppBar, Toolbar, Typography, Container, IconButton } from '@mui/material';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
 const Footer = () => {
   return (
-    <footer style={{ marginTop: 'auto', backgroundColor: 'salmon', padding: '20px', textAlign: 'center' }} className='footer-container'>
-      <Container>
-        <Typography variant="body2" color="textSecondary">
-          &copy; {new Date().getFullYear()} URL Shortener. All rights reserved.
-        </Typography>
+    <AppBar position="static" style={{ backgroundColor: 'salmon' }}>
+      <Container maxWidth="lg">
+        <Toolbar>
+          <Typography variant="body1" color="inherit" style={{ flex: 1 }}>
+            &copy; {new Date().getFullYear()} URL Shortener
+          </Typography>
+          <IconButton color="inherit" href="https://github.com/yourgithub" target="_blank" rel="noopener noreferrer">
+            <GitHubIcon />
+          </IconButton>
+          <IconButton color="inherit" href="https://www.linkedin.com/in/yourlinkedin/" target="_blank" rel="noopener noreferrer">
+            <LinkedInIcon />
+          </IconButton>
+        </Toolbar>
       </Container>
-    </footer>
+    </AppBar>
   );
 };
 

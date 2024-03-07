@@ -98,3 +98,11 @@ input {
     border: none;
     cursor: pointer;
 }
+
+/* spinner */
+.loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Adjust according to your layout */
+  }

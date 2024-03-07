@@ -1,165 +1,63 @@
-// // import React, { useState, useEffect } from 'react';
-// // import axios from 'axios';
-// // import useUpdateClickCount from './useUpdateClickCount'; // Adjust the path based on your project structure
-
-// // const URLList = () => {
-// //   const [urlList, setUrlList] = useState([]);
-
-// //   useEffect(() => {
-// //     const fetchUrlList = async () => {
-// //       try {
-// //         const response = await axios.get('https://url-shortener-ax8r.onrender.com/api/url-list');
-// //         setUrlList(response.data);
-// //       } catch (error) {
-// //         console.error('Error fetching URL list:', error);
-// //         // Handle error cases
-// //       }
-// //     };
-
-// //     fetchUrlList();
-// //   }, []);
-
-// //   const { clickCount, handleUpdateClickCount } = useUpdateClickCount();
-
-// //   const handleShortUrlClick = async (event, urlId, index) => {
-// //     event.preventDefault();
-// //     handleUpdateClickCount(urlId);
-// //     // You can also handle the URL opening here if needed
-// //   };
-
-// //   return (
-// //     <div className="url-list-container">
-// //       <h2 className="url-list-heading">URL List</h2>
-// //       <table className="url-list-table">
-// //         <thead>
-// //           <tr>
-// //             <th>Short URL</th>
-// //             <th>Long URL</th>
-// //             <th>Click Count</th>
-// //           </tr>
-// //         </thead>
-// //         <tbody>
-// //           {urlList.map((url, index) => (
-// //             <tr key={index}>
-// //               <td>
-// //                 <a href={url.shortURL} target="_blank" rel="noopener noreferrer" onClick={(e) => handleShortUrlClick(e, url._id, index)}>
-// //                   {url.shortURL}
-// //                 </a>
-// //               </td>
-// //               <td>
-// //                 <div className="long-url-container">
-// //                   <span className="long-url-text">{url.longURL}</span>
-// //                 </div>
-// //               </td>
-// //               <td>{clickCount}</td>
-// //             </tr>
-// //           ))}
-// //         </tbody>
-// //       </table>
-// //     </div>
-// //   );
-// // };
-
-// // export default URLList;
-
-
-
-
-
-// // import React, { useState, useEffect } from 'react';
-// // import axios from 'axios';
-// // import useUpdateClickCount from './useUpdateClickCount'; // Adjust the path based on your project structure
-
-// // const URLList = () => {
-// //   const [urlList, setUrlList] = useState([]);
-
-// //   useEffect(() => {
-// //     const fetchUrlList = async () => {
-// //       try {
-// //         const response = await axios.get('https://url-shortener-ax8r.onrender.com/api/url-list');
-// //         setUrlList(response.data);
-// //       } catch (error) {
-// //         console.error('Error fetching URL list:', error);
-// //         // Handle error cases
-// //       }
-// //     };
-
-// //     fetchUrlList();
-// //   }, []);
-
-// //   const { clickCount, handleUpdateClickCount } = useUpdateClickCount();
-
-// //   const handleShortUrlClick = async (event, urlId, index) => {
-// //     event.preventDefault();
-// //     handleUpdateClickCount(urlId);
-// //     // You can also handle the URL opening here if needed
-// //   };
-
-// //   return (
-// //     <div className="url-list-container">
-// //       <h2 className="url-list-heading">URL List</h2>
-// //       <table className="url-list-table">
-// //         <thead>
-// //           <tr>
-// //             <th>Short URL</th>
-// //             <th>Long URL</th>
-// //             <th>Click Count</th>
-// //           </tr>
-// //         </thead>
-// //         <tbody>
-// //           {urlList.map((url, index) => (
-// //             <tr key={index}>
-// //               <td>
-// //                 <a href={url.shortURL} target="_blank" rel="noopener noreferrer" onClick={(e) => handleShortUrlClick(e, url._id, index)}>
-// //                   {url.shortURL}
-// //                 </a>
-// //               </td>
-// //               <td>
-// //                 <div className="long-url-container">
-// //                   <span className="long-url-text">{url.longURL}</span>
-// //                 </div>
-// //               </td>
-// //               <td>{clickCount}</td>
-// //             </tr>
-// //           ))}
-// //         </tbody>
-// //       </table>
-// //     </div>
-// //   );
-// // };
-
-// // export default URLList;
-
-
-
 // import React, { useState, useEffect } from 'react';
 // import axios from 'axios';
-// import { FaTrash, FaCopy } from 'react-icons/fa';
-// // import { FaTrash } from 'react-icons/fa'; 
-// import { toast, ToastContainer } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
-
+// import { Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Button, Checkbox, Snackbar, IconButton, Tooltip, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+// import { Delete, FileCopy, Search } from '@mui/icons-material';
+// import Pagination from './Pagination';
+// import ConfirmationDialog from './ConfirmationDialog';
+// import { RingLoader } from 'react-spinners';
 
 // const URLList = () => {
 //   const [urlList, setUrlList] = useState([]);
+//   const [filteredUrlList, setFilteredUrlList] = useState([]);
 //   const [copiedUrlId, setCopiedUrlId] = useState(null);
 //   const [copyCount, setCopyCount] = useState(0);
+//   const [selectedUrls, setSelectedUrls] = useState([]);
+//   const [snackbarOpen, setSnackbarOpen] = useState(false);
+//   const [currentPage, setCurrentPage] = useState(1);
+//   const [totalPages, setTotalPages] = useState(1);
+//   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+//   const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false);
+//   const [deleteAllDialogOpen, setDeleteAllDialogOpen] = useState(false);
+//   const [sortBy, setSortBy] = useState('createdAt'); // Default sorting by createdAt
+//   const [sortOrder, setSortOrder] = useState('desc'); // Default sorting order
+//   const [loading, setLoading] = useState(false);
+//   const [error, setError] = useState(null);
 
 //   useEffect(() => {
 //     const fetchUrlList = async () => {
+//       setLoading(true);
 //       try {
 //         const response = await axios.get('https://url-shortener-ax8r.onrender.com/api/urls/url-list');
 //         setUrlList(response.data);
+//         setTotalPages(Math.ceil(response.data.length / 10));
+//         applySorting(response.data, sortBy, sortOrder); // Apply sorting initially
 //       } catch (error) {
-//         console.error('Error fetching URL list:', error);
-//         // Handle error cases
+//         setError('Error fetching URL list');
 //       }
+//       setLoading(false);
 //     };
 
 //     fetchUrlList();
-//   }, []);
+//   }, []); //eslint-disable-line 
 
-//   const handleShortUrlClick = async (url) => {
+//   useEffect(() => {
+//     // Apply sorting whenever sortBy or sortOrder changes
+//     applySorting(urlList, sortBy, sortOrder);
+//   }, [sortBy, sortOrder]); //eslint-disable-line 
+
+//   const applySorting = (data, sortBy, order) => {
+//     const sortedData = [...data].sort((a, b) => {
+//       if (order === 'asc') {
+//         return a[sortBy] > b[sortBy] ? 1 : -1;
+//       } else {
+//         return a[sortBy] < b[sortBy] ? 1 : -1;
+//       }
+//     });
+//     setUrlList(sortedData);
+//     setFilteredUrlList(sortedData);
+//   };
+
+//   const handleShortUrlClick = (url) => {
 //     window.open(url, '_blank');
 //   };
 
@@ -168,102 +66,230 @@
 //       const shortURL = urlList.find((url) => url._id === urlId).shortURL;
 //       await navigator.clipboard.writeText(shortURL);
 //       setCopiedUrlId(urlId);
-
-//       // Increment copy count
 //       setCopyCount((prevCount) => prevCount + 1);
-
-//       // Set a timer to reset the copiedUrlId after 2 seconds
 //       setTimeout(() => {
 //         setCopiedUrlId(null);
 //       }, 2000);
-
-//       // Send copy count to the server
 //       await axios.post('https://url-shortener-ax8r.onrender.com/api/urls/copy-count', {
 //         urlId,
 //         copyCount,
 //       });
+//       setSnackbarOpen(true);
 //     } catch (error) {
 //       console.error('Error copying URL:', error);
 //       // Handle error cases
 //     }
 //   };
 
-//   const handleDeleteUrl = async (urlId) => {
-//     console.log('URL ID to be deleted:', urlId);
+//   const handleDeleteUrl = async (urlId) => {   //eslint-disable-line
 //     try {
 //       await axios.delete(`https://url-shortener-ax8r.onrender.com/api/urls/${urlId}`);
-//       setUrlList((prevUrlList) => prevUrlList.filter((url) => url._id !== urlId));
-//     window.open(url, '_blank'); // Open the link in a new tab without the localhost prefix
-//   };
-
-//   const handleDeleteUrl = async (urlId) => {
-//     console.log('URL ID to be deleted:', urlId);
-//     try {
-//       await axios.delete(`https://url-shortener-ax8r.onrender.com/api/urls/${urlId}`);
-//       setUrlList((prevUrlList) => prevUrlList.filter((url) => url._id !== urlId));
-//       toast.success('You have delete the url successfully!');
+//       const updatedUrlList = urlList.filter((url) => url._id !== urlId);
+//       setUrlList(updatedUrlList);
+//       setFilteredUrlList(updatedUrlList);
+//       setSnackbarOpen(true);
 //     } catch (error) {
 //       console.error('Error deleting URL:', error);
 //       // Handle error cases
 //     }
 //   };
 
+//   const handleBulkDelete = async () => {   //eslint-disable-line
+//     try {
+//       await axios.delete('https://url-shortener-ax8r.onrender.com/api/urls/bulk', { data: { urlIds: selectedUrls } });
+//       const updatedUrlList = urlList.filter((url) => !selectedUrls.includes(url._id));
+//       setUrlList(updatedUrlList);
+//       setFilteredUrlList(updatedUrlList);
+//       setSelectedUrls([]);
+//       setSnackbarOpen(true);
+//     } catch (error) {
+//       console.error('Error deleting URLs in bulk:', error);
+//       // Handle error cases
+//     }
+//   };
+
+//   const handleDeleteAll = async () => {       //eslint-disable-line
+//     try {
+//       await axios.delete('https://url-shortener-ax8r.onrender.com/api/urls/all');
+//       setUrlList([]);
+//       setFilteredUrlList([]);
+//       setSnackbarOpen(true);
+//     } catch (error) {
+//       console.error('Error deleting all URLs:', error);
+//       // Handle error cases
+//     }
+//   };
+
+//   const handleCheckboxChange = (urlId) => {
+//     setSelectedUrls((prevSelectedUrls) => {
+//       if (prevSelectedUrls.includes(urlId)) {
+//         return prevSelectedUrls.filter((id) => id !== urlId);
+//       } else {
+//         return [...prevSelectedUrls, urlId];
+//       }
+//     });
+//   };
+
+//   const handleCloseSnackbar = () => {
+//     setSnackbarOpen(false);
+//   };
+
+//   const handlePageChange = (page) => {
+//     setCurrentPage(page);
+//   };
+
+//   const handleDeleteConfirmation = () => {
+//     setDeleteDialogOpen(false);
+//     // Delete the selected URL
+//   };
+
+//   const handleBulkDeleteConfirmation = () => {
+//     setBulkDeleteDialogOpen(false);
+//     // Delete the selected URLs in bulk
+//   };
+
+//   const handleDeleteAllConfirmation = () => {
+//     setDeleteAllDialogOpen(false);
+//     // Delete all URLs
+//   };
+
+//   const handleSearch = (searchTerm) => {
+//     const filteredList = urlList.filter(
+//       (url) =>
+//         url.shortURL.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//         url.longURL.toLowerCase().includes(searchTerm.toLowerCase())
+//     );
+//     setFilteredUrlList(filteredList);
+//   };
+
 //   return (
-//     <div className="url-list-container">
-//       <h2 className="url-list-heading">URL List</h2>
-//       <table className="url-list-table">
-//         <thead>
-//           <tr>
-//             <th>Short URL</th>
-//             <th>Long URL</th>
-//             <th>Actions</th>
-//             <th>Delete</th>
-
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {urlList.map((url, index) => (
-//             <tr key={index}>
-//               <td>
-//                 <div className="short-url-container">
-//                   <button onClick={() => handleShortUrlClick(url.shortURL)}>
-//                     {url.shortURL}
-//                   </button>
-//                   {copiedUrlId === url._id && <span className="copy-indicator">Copied!</span>}
-//                 </div>
-//                 <button onClick={() => handleShortUrlClick(url.shortURL)}>
-//                   {url.shortURL}
-//                 </button>
-//               </td>
-//               <td>
-//                 <div className="long-url-container">
-//                   <span className="long-url-text">{url.longURL}</span>
-//                 </div>
-//               </td>
-//               <td>
-//                 <div className="actions-container">
-//                   <button onClick={() => handleCopyUrl(url._id)}>
-//                     <FaCopy size={18} />
-//                   </button>
-//                   <button onClick={() => handleDeleteUrl(url._id)}>
-//                     <FaTrash size={18} />
-//                   </button>
-//                 </div>
-
-//                 <button onClick={() => handleDeleteUrl(url._id)}>
-//                   <FaTrash size={18} />
-//                 </button>
-
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//             <ToastContainer />
+//     <div>
+//       <Typography variant="h4" gutterBottom>
+//         URL List
+//       </Typography>
+//       <TextField
+//         label="Search"
+//         variant="outlined"
+//         onChange={(e) => handleSearch(e.target.value)}
+//         style={{ marginBottom: '20px' }}
+//         InputProps={{ endAdornment: <Search /> }}
+//       />
+//       <FormControl variant="outlined" style={{ marginBottom: '20px' }}>
+//         <InputLabel>Sort By</InputLabel>
+//         <Select
+//           value={sortBy}
+//           onChange={(e) => setSortBy(e.target.value)}
+//           label="Sort By"
+//         >
+//           <MenuItem value="createdAt">Creation Date</MenuItem>
+//           <MenuItem value="copyCount">Copy Count</MenuItem>
+//           {/* Add more sorting options if needed */}
+//         </Select>
+//       </FormControl>
+//       <FormControl variant="outlined" style={{ marginBottom: '20px', marginLeft: '10px' }}>
+//         <InputLabel>Sort Order</InputLabel>
+//         <Select
+//           value={sortOrder}
+//           onChange={(e) => setSortOrder(e.target.value)}
+//           label="Sort Order"
+//         >
+//           <MenuItem value="asc">Ascending</MenuItem>
+//           <MenuItem value="desc">Descending</MenuItem>
+//         </Select>
+//       </FormControl>
+//       <Button variant="contained" color="primary" onClick={() => setBulkDeleteDialogOpen(true)}>Delete Selected URLs</Button>
+//       <Button variant="contained" color="secondary" onClick={() => setDeleteAllDialogOpen(true)}>Delete All URLs</Button>
+//       {loading && <RingLoader color="#3f51b5" loading={loading} size={32} />}
+//       {error && <Typography variant="body1" color="error">{error}</Typography>}
+//       <TableContainer component={Paper}>
+//         <Table>
+//           <TableHead>
+//             <TableRow>
+//               <TableCell></TableCell>
+//               <TableCell>Short URL</TableCell>
+//               <TableCell>Long URL</TableCell>
+//               <TableCell>Actions</TableCell>
+//             </TableRow>
+//           </TableHead>
+//           <TableBody>
+//             {filteredUrlList.slice((currentPage - 1) * 10, currentPage * 10).map((url) => (
+//               <TableRow key={url._id}>
+//                 <TableCell>
+//                   <Checkbox
+//                     checked={selectedUrls.includes(url._id)}
+//                     onChange={() => handleCheckboxChange(url._id)}
+//                   />
+//                 </TableCell>
+//                 <TableCell>
+//                   <div style={{ display: 'flex', alignItems: 'center' }}>
+//                     <button onClick={() => handleShortUrlClick(url.shortURL)}>
+//                       {url.shortURL}
+//                     </button>
+//                     {copiedUrlId === url._id && <span style={{ marginLeft: 5, color: 'green' }}>Copied!</span>}
+//                   </div>
+//                 </TableCell>
+//                 <TableCell>{url.longURL}</TableCell>
+//                 <TableCell>
+//                   <div style={{ display: 'flex', alignItems: 'center' }}>
+//                     <Tooltip title="Copy">
+//                       <IconButton onClick={() => handleCopyUrl(url._id)} size="small">
+//                         <FileCopy />
+//                       </IconButton>
+//                     </Tooltip>
+//                     <Tooltip title="Delete">
+//                       <IconButton onClick={() => { setDeleteDialogOpen(true); setSelectedUrls([url._id]); }} size="small">
+//                         <Delete />
+//                       </IconButton>
+//                     </Tooltip>
+//                   </div>
+//                 </TableCell>
+//               </TableRow>
+//             ))}
+//             {filteredUrlList.length === 0 && (
+//               <TableRow>
+//                 <TableCell colSpan={4} align="center">
+//                   No URLs found. <Button variant="outlined" onClick={() => console.log('Create new short URLs')}>Create your short URLs</Button>
+//                 </TableCell>
+//               </TableRow>
+//             )}
+//           </TableBody>
+//         </Table>
+//       </TableContainer>
+//       <Pagination
+//         currentPage={currentPage}
+//         totalPages={totalPages}
+//         onPageChange={handlePageChange}
+//       />
+//       <Snackbar
+//         open={snackbarOpen}
+//         autoHideDuration={3000}
+//         onClose={handleCloseSnackbar}
+//         message="Action performed successfully"
+//       />
+//       <ConfirmationDialog
+//         open={deleteDialogOpen}
+//         onClose={() => setDeleteDialogOpen(false)}
+//         onConfirm={handleDeleteConfirmation}
+//         title="Delete URL"
+//         content="Are you sure you want to delete this URL?"
+//       />
+//       <ConfirmationDialog
+//         open={bulkDeleteDialogOpen}
+//         onClose={() => setBulkDeleteDialogOpen(false)}
+//         onConfirm={handleBulkDeleteConfirmation}
+//         title="Bulk Delete URLs"
+//         content="Are you sure you want to delete the selected URLs?"
+//       />
+//       <ConfirmationDialog
+//         open={deleteAllDialogOpen}
+//         onClose={() => setDeleteAllDialogOpen(false)}
+//         onConfirm={handleDeleteAllConfirmation}
+//         title="Delete All URLs"
+//         content="Are you sure you want to delete all URLs?"
+//       />
 //     </div>
 //   );
 // };
-
 
 // export default URLList;
 
@@ -271,30 +297,74 @@
 
 
 
+
+
+
+
+
+
+
+
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaTrash, FaCopy } from 'react-icons/fa';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Button, Checkbox, Snackbar, IconButton, Tooltip, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Delete, FileCopy, Search } from '@mui/icons-material';
+import Pagination from './Pagination';
+import ConfirmationDialog from './ConfirmationDialog';
+import { RingLoader } from 'react-spinners';
 
 const URLList = () => {
   const [urlList, setUrlList] = useState([]);
+  const [filteredUrlList, setFilteredUrlList] = useState([]);
   const [copiedUrlId, setCopiedUrlId] = useState(null);
   const [copyCount, setCopyCount] = useState(0);
+  const [selectedUrls, setSelectedUrls] = useState([]);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false);
+  const [deleteAllDialogOpen, setDeleteAllDialogOpen] = useState(false);
+  const [sortBy, setSortBy] = useState('createdAt'); // Default sorting by createdAt
+  const [sortOrder, setSortOrder] = useState('desc'); // Default sorting order
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [selectAll, setSelectAll] = useState(false);
 
   useEffect(() => {
     const fetchUrlList = async () => {
+      setLoading(true);
       try {
         const response = await axios.get('https://url-shortener-ax8r.onrender.com/api/urls/url-list');
         setUrlList(response.data);
+        setTotalPages(Math.ceil(response.data.length / 10));
+        applySorting(response.data, sortBy, sortOrder); // Apply sorting initially
       } catch (error) {
-        console.error('Error fetching URL list:', error);
-        // Handle error cases
+        setError('Error fetching URL list');
       }
+      setLoading(false);
     };
 
     fetchUrlList();
-  }, []);
+  }, []); //eslint-disable-line 
+
+  useEffect(() => {
+    // Apply sorting whenever sortBy or sortOrder changes
+    applySorting(urlList, sortBy, sortOrder);
+  }, [sortBy, sortOrder]); //eslint-disable-line 
+
+  const applySorting = (data, sortBy, order) => {
+    const sortedData = [...data].sort((a, b) => {
+      if (order === 'asc') {
+        return a[sortBy] > b[sortBy] ? 1 : -1;
+      } else {
+        return a[sortBy] < b[sortBy] ? 1 : -1;
+      }
+    });
+    setUrlList(sortedData);
+    setFilteredUrlList(sortedData);
+  };
 
   const handleShortUrlClick = (url) => {
     window.open(url, '_blank');
@@ -305,80 +375,255 @@ const URLList = () => {
       const shortURL = urlList.find((url) => url._id === urlId).shortURL;
       await navigator.clipboard.writeText(shortURL);
       setCopiedUrlId(urlId);
-
-      // Increment copy count
       setCopyCount((prevCount) => prevCount + 1);
-
-      // Set a timer to reset the copiedUrlId after 2 seconds
       setTimeout(() => {
         setCopiedUrlId(null);
       }, 2000);
-
-      // Send copy count to the server
       await axios.post('https://url-shortener-ax8r.onrender.com/api/urls/copy-count', {
         urlId,
         copyCount,
       });
+      setSnackbarOpen(true);
     } catch (error) {
       console.error('Error copying URL:', error);
       // Handle error cases
     }
   };
 
-  const handleDeleteUrl = async (urlId) => {
+  const handleDeleteUrl = async (urlId) => {   //eslint-disable-line
     try {
       await axios.delete(`https://url-shortener-ax8r.onrender.com/api/urls/${urlId}`);
-      setUrlList((prevUrlList) => prevUrlList.filter((url) => url._id !== urlId));
-      toast.success('URL deleted successfully!');
+      const updatedUrlList = urlList.filter((url) => url._id !== urlId);
+      setUrlList(updatedUrlList);
+      setFilteredUrlList(updatedUrlList);
+      setSnackbarOpen(true);
     } catch (error) {
       console.error('Error deleting URL:', error);
-      toast.error('Error deleting URL');
       // Handle error cases
     }
   };
 
+  const handleBulkDelete = async () => {   //eslint-disable-line
+    try {
+      await axios.delete('https://url-shortener-ax8r.onrender.com/api/urls/bulk', { data: { urlIds: selectedUrls } });
+      const updatedUrlList = urlList.filter((url) => !selectedUrls.includes(url._id));
+      setUrlList(updatedUrlList);
+      setFilteredUrlList(updatedUrlList);
+      setSelectedUrls([]);
+      setSnackbarOpen(true);
+    } catch (error) {
+      console.error('Error deleting URLs in bulk:', error);
+      // Handle error cases
+    }
+  };
+
+  const handleDeleteAll = async () => {       //eslint-disable-line
+    try {
+      await axios.delete('https://url-shortener-ax8r.onrender.com/api/urls/all');
+      setUrlList([]);
+      setFilteredUrlList([]);
+      setSnackbarOpen(true);
+    } catch (error) {
+      console.error('Error deleting all URLs:', error);
+      // Handle error cases
+    }
+  };
+
+  const handleCheckboxChange = (urlId) => {
+    if (urlId === 'all') {
+      setSelectAll(!selectAll);
+      if (!selectAll) {
+        setSelectedUrls(filteredUrlList.map((url) => url._id));
+      } else {
+        setSelectedUrls([]);
+      }
+    } else {
+      setSelectedUrls((prevSelectedUrls) => {
+        if (prevSelectedUrls.includes(urlId)) {
+          return prevSelectedUrls.filter((id) => id !== urlId);
+        } else {
+          return [...prevSelectedUrls, urlId];
+        }
+      });
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handleDeleteConfirmation = () => {
+    setDeleteDialogOpen(false);
+    // Delete the selected URL
+  };
+
+  const handleBulkDeleteConfirmation = () => {
+    setBulkDeleteDialogOpen(false);
+    // Delete the selected URLs in bulk
+  };
+
+  const handleDeleteAllConfirmation = () => {
+    setDeleteAllDialogOpen(false);
+    // Delete all URLs
+  };
+
+  const handleSearch = (searchTerm) => {
+    const filteredList = urlList.filter(
+      (url) =>
+        url.shortURL.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        url.longURL.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredUrlList(filteredList);
+  };
+
   return (
-    <div className="url-list-container">
-      <h2 className="url-list-heading">URL List</h2>
-      <table className="url-list-table">
-        <thead>
-          <tr>
-            <th>Short URL</th>
-            <th>Long URL</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {urlList.map((url, index) => (
-            <tr key={index}>
-              <td>
-                <div className="short-url-container">
-                  <button onClick={() => handleShortUrlClick(url.shortURL)}>
-                    {url.shortURL}
-                  </button>
-                  {copiedUrlId === url._id && <span className="copy-indicator">Copied!</span>}
-                </div>
-              </td>
-              <td>
-                <div className="long-url-container">
-                  <span className="long-url-text">{url.longURL}</span>
-                </div>
-              </td>
-              <td>
-                <div className="actions-container">
-                  <button onClick={() => handleCopyUrl(url._id)}>
-                    <FaCopy size={18} />
-                  </button>
-                  <button onClick={() => handleDeleteUrl(url._id)}>
-                    <FaTrash size={18} />
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <ToastContainer />
+    <div>
+      <Typography variant="h4" gutterBottom>
+        URL List
+      </Typography>
+      <TextField
+        label="Search"
+        variant="outlined"
+        onChange={(e) => handleSearch(e.target.value)}
+        style={{ marginBottom: '20px' }}
+        InputProps={{ endAdornment: <Search /> }}
+      />
+      <FormControl variant="outlined" style={{ marginBottom: '20px' }}>
+        <InputLabel>Sort By</InputLabel>
+        <Select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+          label="Sort By"
+        >
+          <MenuItem value="createdAt">Creation Date</MenuItem>
+          <MenuItem value="copyCount">Copy Count</MenuItem>
+          {/* Add more sorting options if needed */}
+        </Select>
+      </FormControl>
+      <FormControl variant="outlined" style={{ marginBottom: '20px', marginLeft: '10px' }}>
+        <InputLabel>Sort Order</InputLabel>
+        <Select
+          value={sortOrder}
+          onChange={(e) => setSortOrder(e.target.value)}
+          label="Sort Order"
+        >
+          <MenuItem value="asc">Ascending</MenuItem>
+          <MenuItem value="desc">Descending</MenuItem>
+        </Select>
+      </FormControl>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => setBulkDeleteDialogOpen(true)}
+        disabled={selectedUrls.length === 0}
+      >
+        Delete Selected URLs
+      </Button>
+      <Button
+        variant="contained"
+        color="secondary"
+        onClick={() => setDeleteAllDialogOpen(true)}
+        disabled={filteredUrlList.length === 0 || selectedUrls.length !== filteredUrlList.length}
+      >
+        Delete All URLs
+      </Button>
+      {loading && <RingLoader color="#3f51b5" loading={loading} size={32} />}
+      {error && <Typography variant="body1" color="error">{error}</Typography>}
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>
+                <Checkbox
+                  checked={selectAll}
+                  onChange={() => handleCheckboxChange('all')}
+                />
+              </TableCell>
+              <TableCell>Short URL</TableCell>
+              <TableCell>Long URL</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {filteredUrlList.slice((currentPage - 1) * 10, currentPage * 10).map((url) => (
+              <TableRow key={url._id}>
+                <TableCell>
+                  <Checkbox
+                    checked={selectedUrls.includes(url._id)}
+                    onChange={() => handleCheckboxChange(url._id)}
+                  />
+                </TableCell>
+                <TableCell>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <button onClick={() => handleShortUrlClick(url.shortURL)}>
+                      {url.shortURL}
+                    </button>
+                    {copiedUrlId === url._id && <span style={{ marginLeft: 5, color: 'green' }}>Copied!</span>}
+                  </div>
+                </TableCell>
+                <TableCell>{url.longURL}</TableCell>
+                <TableCell>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <Tooltip title="Copy">
+                      <IconButton onClick={() => handleCopyUrl(url._id)} size="small">
+                        <FileCopy />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Delete">
+                      <IconButton onClick={() => { setDeleteDialogOpen(true); setSelectedUrls([url._id]); }} size="small">
+                        <Delete />
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+            {filteredUrlList.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={4} align="center">
+                  No URLs found. <Button variant="outlined" onClick={() => console.log('Create new short URLs')}>Create your short URLs</Button>
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        message="Action performed successfully"
+      />
+      <ConfirmationDialog
+        open={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+        onConfirm={handleDeleteConfirmation}
+        title="Delete URL"
+        content="Are you sure you want to delete this URL?"
+      />
+      <ConfirmationDialog
+        open={bulkDeleteDialogOpen}
+        onClose={() => setBulkDeleteDialogOpen(false)}
+        onConfirm={handleBulkDeleteConfirmation}
+        title="Bulk Delete URLs"
+        content="Are you sure you want to delete the selected URLs?"
+      />
+      <ConfirmationDialog
+        open={deleteAllDialogOpen}
+        onClose={() => setDeleteAllDialogOpen(false)}
+        onConfirm={handleDeleteAllConfirmation}
+        title="Delete All URLs"
+        content="Are you sure you want to delete all URLs?"
+      />
     </div>
   );
 };

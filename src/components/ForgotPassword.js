@@ -1,49 +1,86 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
+import { Button, TextField, Typography, Container, Box, Snackbar } from '@mui/material';
+import { Error, CheckCircle } from '@mui/icons-material';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarIcon, setSnackbarIcon] = useState(null);
   const navigate = useNavigate();
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleForgotPassword = async () => {
     try {
-      await axios.post('https://url-shortener-ax8r.onrender.com/api/users/forgot-password', { email });
-      // setMessage('An email has been sent with further instructions.');
-      toast.success('An Reset Password Token is sent to your mail.');
-      navigate('/reset-Password/:token');
+      const response = await axios.post('https://url-shortener-ax8r.onrender.com/api/users/forgot-password', { email });
+      setSnackbarMessage(response.data.message);
+      setSnackbarIcon(<CheckCircle />);
+      setOpenSnackbar(true);
+      navigate('/login')
     } catch (error) {
-      setMessage('Failed to send reset password email.');
-      toast.error('Failed to send reset password email');
+      console.error(error);
+      setSnackbarMessage('Failed to send password reset email');
+      setSnackbarIcon(<Error />);
+      setOpenSnackbar(true);
     }
   };
 
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
+
   return (
-    <div className='auth-container'>
-      <div className='auth-form'>
-      <h2>Forgot Password</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={handleEmailChange}
+    <Container maxWidth="sm">
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          mt: 8,
+        }}
+      >
+        <Typography variant="h4">Forgot Password</Typography>
+        <Box
+          component="form"
+          sx={{
+            mt: 3,
+            width: '100%',
+            maxWidth: '400px',
+          }}
+        >
+          <TextField
+            fullWidth
+            label="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            margin="normal"
+          />
+          <Button onClick={handleForgotPassword} variant="contained" sx={{ mt: 3 }}>
+            Reset Password
+          </Button>
+        </Box>
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+          message={
+            <Box display="flex" alignItems="center">
+              {snackbarIcon}
+              <Typography variant="body1" sx={{ ml: 1 }}>
+                {snackbarMessage}
+              </Typography>
+            </Box>
+          }
+          sx={{
+            backgroundColor: snackbarIcon === <CheckCircle /> ? '#4caf50' : '#f44336',
+            color: '#fff',
+            borderRadius: '8px',
+            boxShadow: '0 3px 5px rgba(0, 0, 0, 0.3)',
+          }}
         />
-        <button type="submit" className='button1'>Reset Password</button>
-      </form>
-      {message && <p>{message}</p>}
-      </div>
-      <ToastContainer />
-      </div>
+      </Box>
+    </Container>
   );
 };
 
