@@ -1,26 +1,3 @@
-// import * as React from 'react';
-// import { PieChart } from '@mui/x-charts/PieChart';
-
-// export default function MonthlyPieChart({ data }) {
-//   return (
-//     <PieChart
-//       series={[
-//         {
-//           startAngle: -90,
-//           endAngle: 90,
-//           data,
-//         },
-//       ]}
-//       height={300}
-//     />
-//   );
-// }
-
-
-
-
-
-
 import React from 'react';
 import { PieChart } from '@mui/x-charts/PieChart';
 

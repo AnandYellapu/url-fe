@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Button, TextField, Typography, Container, Box, Snackbar } from '@mui/material';
-import { Error, CheckCircle } from '@mui/icons-material';
+import { Button, TextField, Typography, Container, Box, Snackbar, InputAdornment} from '@mui/material';
+import { Error, CheckCircle, Email } from '@mui/icons-material';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -13,11 +13,15 @@ const ForgotPassword = () => {
 
   const handleForgotPassword = async () => {
     try {
+      // https://url-shortener-ax8r.onrender.com
       const response = await axios.post('https://url-shortener-ax8r.onrender.com/api/users/forgot-password', { email });
       setSnackbarMessage(response.data.message);
+      setSnackbarMessage('Password reset link sent to email. Please check your inbox.');
       setSnackbarIcon(<CheckCircle />);
       setOpenSnackbar(true);
-      navigate('/login')
+      setTimeout(() => {
+        navigate('/login');
+      }, 3000);
     } catch (error) {
       console.error(error);
       setSnackbarMessage('Failed to send password reset email');
@@ -49,13 +53,20 @@ const ForgotPassword = () => {
             maxWidth: '400px',
           }}
         >
-          <TextField
-            fullWidth
-            label="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            margin="normal"
-          />
+        <TextField
+        fullWidth
+        label="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        margin="normal"
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <Email />
+            </InputAdornment>
+          ),
+        }}
+      />
           <Button onClick={handleForgotPassword} variant="contained" sx={{ mt: 3 }}>
             Reset Password
           </Button>

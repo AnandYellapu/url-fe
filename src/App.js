@@ -1,23 +1,22 @@
 import React from 'react';
-import './index.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import Home from './components/Home';
-import About from './components/About';
-import Login from './components/Login';
+import Header from './pages/Header';
+import Footer from './pages/Footer';
+import Home from './pages/Home';
+import About from './pages/About';
+import Login from './auth/Login';
 import Dashboard from './components/Dashboard';
 import URLCreationForm from './components/URLCreationForm';
 import URLList from './components/URLList';
 import UserURLList from './components/UserUrlList';
 import Chart from './components/Chart';
 import UserCharts from './components/UserCharts';
-import Register from './components/Register';
-import ForgotPassword from './components/ForgotPassword';
-import ResetPassword from './components/ResetPassword';
-import ActivationLink from './components/ActivationLink';
+import Register from './auth/Register';
+import ForgotPassword from './auth/ForgotPassword';
+import ResetPassword from './auth/ResetPassword';
+import ActivationLink from './auth/ActivationLink';
 
 const App = () => {
    return (

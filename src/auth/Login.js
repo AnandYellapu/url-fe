@@ -112,7 +112,7 @@ const Login = () => {
               ),
             }}
           />
-          <Button onClick={handleLogin} variant="contained" startIcon={<LockOutlined />} sx={{ mt: 3 }}>
+          <Button onClick={handleLogin} variant="contained" sx={{ mt: 3 }}>
             Login
           </Button>
         </Box>

@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { CircularProgress, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import axios from 'axios';
 import DailyPieChart from './DailyPieChart';
 import MonthlyPieChart from './MonthlyPieChart';
-import { ResponsiveContainer } from 'recharts';
+import { RingLoader } from 'react-spinners';
 
 export default function Chart() {
   const [dailyData, setDailyData] = React.useState([]);
@@ -30,9 +30,8 @@ export default function Chart() {
 
   const formatDailyData = (data) => {
     return data.map((item) => {
-      const { date, time } = item._id;
-      const formattedDate = `${date} ${time}`;
-      return { label: formattedDate, value: item.count };
+      const { date } = item._id; // Removed time from the label
+      return { label: date, value: item.count };
     });
   };
 
@@ -42,38 +41,33 @@ export default function Chart() {
     });
   };
 
- 
-
   if (isLoading) {
-    return <CircularProgress />;
+    return <RingLoader color="#36D7B7" loading={isLoading} size={35} className="loader" />;
   }
 
   if (error) {
-    return <Typography variant="h6" color="error">Error: {error}</Typography>;
+    return <Typography variant="h6" color="error" className="error-message">Error: {error}</Typography>;
   }
-
- 
 
   if (dailyData.length === 0 && monthlyData.length === 0) {
     return (
-      <Typography variant="h6">
+      <Typography variant="h6" className="no-charts-message">
         No Charts found.
       </Typography>
     );
-  } 
-
+  }
 
   return (
     <div className="chart-container">
-      <Typography variant="h4" gutterBottom>Daily URL Count</Typography>
-      <ResponsiveContainer width="100%" height={300}>
+      <Typography variant="h4" gutterBottom className="chart-title">Daily URL Count</Typography>
+      <div style={{ width: '100%', height: 450 }}>
         <DailyPieChart data={dailyData} />
-      </ResponsiveContainer>
+      </div>
 
-      <Typography variant="h4" gutterBottom>Monthly URL Count</Typography>
-      <ResponsiveContainer width="100%" height={300}>
+      <Typography variant="h4" gutterBottom className="chart-title">Monthly URL Count</Typography>
+      <div style={{ width: '100%', height: 450 }}>
         <MonthlyPieChart data={monthlyData} />
-      </ResponsiveContainer>
+      </div>
     </div>
   );
 }

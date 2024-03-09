@@ -3,8 +3,8 @@ import axios from 'axios';
 import { IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Snackbar, Tooltip, Checkbox, Button, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { Delete, FileCopy, Search } from '@mui/icons-material';
 import { RingLoader } from 'react-spinners';
-import Pagination from './Pagination';
-import ConfirmationDialog from './ConfirmationDialog';
+import Pagination from '../pages/Pagination';
+import ConfirmationDialog from '../pages/ConfirmationDialog';
 
 const UserURLList = () => {
   const [urlList, setUrlList] = useState([]);
@@ -205,7 +205,7 @@ const UserURLList = () => {
         </Select>
       </FormControl>
       <Button variant="contained" color="primary" onClick={handleBulkDeleteConfirmation} disabled={selectedUrls.length === 0}>Delete Selected URLs</Button>
-      {loading && <RingLoader color="#3f51b5" loading={loading} size={32} />}
+      {loading && <RingLoader color="#36D7B7" loading={loading} size={32} />}
       {error && <Typography variant="body1" color="error">{error}</Typography>}
       <TableContainer component={Paper}>
         <Table>

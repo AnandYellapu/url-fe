@@ -34,13 +34,15 @@ const ResetPassword = () => {
       try {
         console.log('Reset password request initiated with token:', token);
 
-        const response = await axios.post(`https://url-shortener-ax8r.onrender.com/api/users/reset-password/${token}`, { email: 'user@example.com', token, newPassword: values.password });
+        const response = await axios.post(`https://url-shortener-ax8r.onrender.com/api/users/reset-password/${token}`, { token, newPassword: values.password });
         console.log('Reset password response:', response.data);
 
         setSnackbarMessage(response.data.message);
         setSnackbarIcon(<CheckCircle />);
         setOpenSnackbar(true);
-        navigate('/login');
+        setTimeout(() => {
+          navigate('/login');
+        }, 3000);
       } catch (error) {
         console.error('Error resetting password:', error);
         setSnackbarMessage('Failed to reset password');
