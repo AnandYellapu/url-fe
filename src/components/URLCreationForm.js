@@ -112,7 +112,6 @@ const URLCreationForm = () => {
         />
         
         <TextField
-          label="Expiry Date/Time"
           type="datetime-local"
           variant="outlined"
           fullWidth
