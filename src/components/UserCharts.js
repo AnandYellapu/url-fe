@@ -11,32 +11,33 @@ const UserCharts = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+ 
   const fetchData = async () => {
     try {
       const authToken = localStorage.getItem('authToken');
       const response = await axios.get('https://url-shortener-ax8r.onrender.com/api/urls/user-charts', {
         headers: { Authorization: `Bearer ${authToken}` },
       });
-
-
+  
       const { dailyURLs, monthlyURLs } = response.data;
-
+  
       if (!Array.isArray(dailyURLs) || !Array.isArray(monthlyURLs)) {
         throw new Error('Invalid response format');
       }
-
+  
+      // Sort the daily URLs by date
+      dailyURLs.sort((a, b) => new Date(a._id.date) - new Date(b._id.date));
+  
       const formattedDailyData = dailyURLs.map(item => ({
         label: item._id.date,
         value: item.count
       }));
-
+  
       const formattedMonthlyData = monthlyURLs.map(item => ({
         label: formatMonthYearString(item._id),
         value: item.count
       }));
-
-    
-
+  
       setDailyData(formattedDailyData);
       setMonthlyData(formattedMonthlyData);
       setIsLoading(false);
@@ -46,6 +47,8 @@ const UserCharts = () => {
       setIsLoading(false);
     }
   };
+  
+
 
   useEffect(() => {
     fetchData();
