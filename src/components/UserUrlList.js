@@ -357,8 +357,24 @@ const UserURLList = () => {
           headers: { Authorization: `Bearer ${authToken}` },
         });
 
-        setUrlList(response.data);
-        setTotalPages(Math.ceil(response.data.length / 10));
+        let sortedUrlList = [...response.data];
+
+        // Sort the URL list based on sortBy and sortOrder
+        sortedUrlList.sort((a, b) => {
+          if (sortBy === 'createdAt') {
+            return sortOrder === 'asc' ? new Date(a.createdAt) - new Date(b.createdAt) : new Date(b.createdAt) - new Date(a.createdAt);
+          } else if (sortBy === 'copyCount') {
+            return sortOrder === 'asc' ? a.copyCount - b.copyCount : b.copyCount - a.copyCount;
+          } else {
+            return 0;
+          }
+        });
+
+        // Filter the URL list based on the searchTerm
+        sortedUrlList = sortedUrlList.filter(url => url.longURL.includes(searchTerm));
+
+        setUrlList(sortedUrlList);
+        setTotalPages(Math.ceil(sortedUrlList.length / 10));
       } catch (error) {
         console.error('Error fetching URL list:', error);
 
@@ -483,6 +499,10 @@ const UserURLList = () => {
   };
 
   const thresholdLength = 50; // Threshold length for displaying "Read More" button
+
+
+
+
 
   return (
     <div>
