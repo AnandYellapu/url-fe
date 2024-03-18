@@ -389,7 +389,7 @@ const UserURLList = () => {
     };
 
     fetchUrlList();
-  }, []);
+  }, []); //eslint-disable-line
 
   const handleShortUrlClick = async (url) => {
     window.open(url, '_blank');
