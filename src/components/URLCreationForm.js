@@ -228,7 +228,7 @@ import { IoCopyOutline } from 'react-icons/io5';
 import { Snackbar, Button, TextField, Grid, Paper, Typography, Divider, Box, MenuItem, Select, FormControl, InputLabel, CircularProgress, Switch, FormControlLabel } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 import { styled } from '@mui/system';
-import QRCode from 'qrcode.react';
+import {QRCodeSVG} from 'qrcode.react';
 import Autocomplete from '@mui/material/Autocomplete';
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
@@ -446,7 +446,7 @@ const URLCreationForm = () => {
                     </a>
                   </Typography>
                   <StyledCopyIcon onClick={handleCopyClick} />
-                  <QRCode value={shortURL} size={qrSize} fgColor={qrColor} level={qrErrorCorrection} />
+                  <QRCodeSVG value={shortURL} size={qrSize} fgColor={qrColor} level={qrErrorCorrection} />
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: '10px' }}>
                   <FormControl variant="outlined" sx={{ minWidth: 120 }}>
